@@ -1,6 +1,31 @@
-# MMM-Holidays
+# MMM-Holiday
 
-Country codes for config.js
+Module for getting holidays for your country.
+
+Simple installation!
+
+# Install
+    ~MagicMirror/modules
+    git clone https://github.com/cowboysdude/MMM-Holiday
+    
+    cd ~MagicMirror/modules/MMM-Holiday
+    type:  npm install
+    
+# CONFIG.JS entry and options
+
+      {
+            module: 'MMM-Holiday',
+            position: 'middle_center',
+            config: {
+                maxWidth: "25%",
+                header: "Happy Holiday",
+                countryCode: "est"
+            }
+         },
+    Get your country code from the list below.     
+    
+
+# Country codes for config.js
 
     Angola - ago
     Australia - aus
