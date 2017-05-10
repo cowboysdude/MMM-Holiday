@@ -14,10 +14,8 @@ Module.register("MMM-Holiday", {
         initialLoadDelay: 5250,
         retryDelay: 2500,
         useHeader: false,
-        header: "********Please set header in config.js***** see README",
+        header: "",
         MaxWidth: "50%",
-        MaxHeight: "50%",
-        rotateInterval: 10 * 1000,
         countryCode: "usa"
     },
     
@@ -36,14 +34,10 @@ Module.register("MMM-Holiday", {
         // Set locale.
         this.url = this.getHolidayUrl();
         this.today = "";
-        this.holiday = {};
-        this.activeItem = 0;
-        this.rotateInterval = null;
         this.scheduleUpdate();
     },
 
     getDom: function() {
-
 
         var wrapper = document.createElement("div");
         wrapper.className = "wrapper";
@@ -55,35 +49,32 @@ Module.register("MMM-Holiday", {
             return wrapper;
         }
 
-        if (this.config.useheader != false) {
+        if (this.config.useHeader != false) {
             var header = document.createElement("header");
             header.classList.add("xsmall", "bright");
             header.innerHTML = this.config.header;
             wrapper.appendChild(header);
         }
+        
+            for(var i = 0; i < this.holiday.length; i++){ 
+			var holiday = this.holiday[i];
 
-        var keys = Object.keys(this.holiday);
-        if (keys.length > 0) {
-            if (this.activeItem >= keys.length) {
-                this.activeItem = 0;
-            }
-            var holiday = this.holiday[keys[this.activeItem]];
-
-
-            var CurrentDate = moment().format("MM/DD/YYYY");
+            var CurrentMonth = moment().format('MM');
+            var NextMonth = moment().add(1, 'M').format('MM');
+            var CurrentDay = moment().add(10, 'days').format("D");
+            var CompareMonth = holiday.date.month;
             var allDate = holiday.date.month + "/" + holiday.date.day + "/" + holiday.date.year;
-
+            var NewDate = moment(allDate).format("MM/DD/YYYY");
+            
+            
             var holidayColumn = document.createElement("div");
 
           
                 var holidayDate = document.createElement("p");
-                 if (allDate >= CurrentDate) {
+                if (CompareMonth == CurrentMonth) {
                 holidayDate.classList.add("xsmall", "bright", "now");
                 holidayDate.innerHTML = allDate + " ~ " + holiday.localName;
-                } else {
-				holidayDate.classList.add("xsmall", "bright");	
-				holidayDate.innerHTML = allDate + " ~ " + holiday.localName;
-				}
+               } 
                 holidayColumn.appendChild(holidayDate);
                 wrapper.appendChild(holidayColumn);
            
@@ -95,14 +86,6 @@ Module.register("MMM-Holiday", {
         this.today = data.Today;
         this.holiday = data;
         this.loaded = true;
-    },
-
-    scheduleCarousel: function() {
-        console.log("Showing upcoming Holidays");
-        this.rotateInterval = setInterval(() => {
-            this.activeItem++;
-            this.updateDom(this.config.animationSpeed);
-        }, this.config.rotateInterval);
     },
 
     scheduleUpdate: function() {
@@ -117,9 +100,7 @@ Module.register("MMM-Holiday", {
         var url = null;
         var holidayYear = moment().format('YYYY');
         var countryCode = this.config.countryCode.toLowerCase();
-
         url = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=" + holidayYear + "&country=" + countryCode + "&region=";
-
         return url;
     },
 
@@ -130,12 +111,9 @@ Module.register("MMM-Holiday", {
     socketNotificationReceived: function(notification, payload) {
         if (notification === "HOLIDAY_RESULT") {
             this.processHoliday(payload);
-        }
-        if (this.rotateInterval == null) {
-            this.scheduleCarousel();
-        }
         this.updateDom(this.config.fadeSpeed);
         this.updateDom(this.config.initialLoadDelay);
+       } 
     },
 
 });
