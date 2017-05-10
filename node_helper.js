@@ -12,7 +12,7 @@ const request = require('request');
 module.exports = NodeHelper.create({
 
     start: function() {
-        console.log("Starting module: " + this.name);
+        console.log("Starting node_helper for: " + this.name);
     },
 
     getHoliday: function(url) {
