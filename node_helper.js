@@ -6,7 +6,7 @@
  */
 const NodeHelper = require('node_helper');
 const request = require('request');
-var moment = require('moment');
+
 
 
 module.exports = NodeHelper.create({
