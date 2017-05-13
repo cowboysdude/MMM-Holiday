@@ -17,7 +17,7 @@ Simple installation!
             module: 'MMM-Holiday',
             position: 'middle_center',
             config: {
-                maxWidth: "90%",
+                maxWidth: "40%",
                 header: "Upcoming Holidays",
                 countryCode: "usa"
             }
