@@ -3,11 +3,11 @@ A MagicMirror module that displays the holidays for your country.
 
 ## Examples
 
-![](Picture1.JPG)
+![](swedish.PNG)
 
-![](Picture2.JPG)
+![](today.PNG)
 
-![](Picture3.JPG)
+![](Capture.PNG)
 
 ## Info
 
