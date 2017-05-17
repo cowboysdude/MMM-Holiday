@@ -16,16 +16,12 @@ Module.register("MMM-Holiday", {
         useHeader: false,
         header: "",
         MaxWidth: "40%",
-        countryCode: "usa"
+        countryCode: "usa",
+        days: "365",
     },
 
     getStyles: function() {
         return ["MMM-Holiday.css", "font-awesome.css"];
-    },
-
-    // Define required scripts. - The standard
-    getScripts: function() {
-        return ["moment.js"];
     },
 
     start: function() {
@@ -38,7 +34,7 @@ Module.register("MMM-Holiday", {
     },
 
     processHoliday: function(data) {
-        this.today = data.Today;
+        //this.today = data.Today;
         this.holiday = data;
         this.loaded = true;
     },
@@ -53,7 +49,8 @@ Module.register("MMM-Holiday", {
 
     getHolidayUrl: function() {
         var url = null;
-        var holidayYear = moment().format('YYYY');
+        var today = new Date();
+        var holidayYear = today.getFullYear();
         var countryCode = this.config.countryCode.toLowerCase();
         url = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=" + holidayYear + "&country=" + countryCode + "&region=";
         return url;
@@ -97,14 +94,16 @@ Module.register("MMM-Holiday", {
 
             var today = new Date();
             var dd = today.getDate();
-            var dayPlus = today.getDate() + 14;
+            var dayPlus = today.getDate() + 365;
             var mm = today.getMonth() + 1; //January is 0!
-            var nMonth = today.getMonth() + 3;
+            var nMonth = today.getMonth() + 14;
             var yyyy = today.getFullYear();
 
             var today = mm + '/' + dd + '/' + yyyy;
             var month = mm;
-
+            
+            //var test ="5/25/2017";  //uncomment use a holiday date and put in place of today to test
+            
             var CompareDay = holiday.date.day;
             var CompareMonth = holiday.date.month;
 
@@ -112,15 +111,12 @@ Module.register("MMM-Holiday", {
             var allDate = holiday.date.month + "/" + holiday.date.day + "/" + holiday.date.year;
 
             var DateDiff = {
-
                 inDays: function(d1, d2) {
                     var t2 = d2.getTime();
                     var t1 = d1.getTime();
-
                     return parseInt((t2 - t1) / (24 * 3600 * 1000));
                 },
             }
-
             var d1 = new Date(today);
             var d2 = new Date(allDate);
 
@@ -131,12 +127,18 @@ Module.register("MMM-Holiday", {
             HolidayTable.className = "small";
 
             var symbolWrapper = document.createElement("td");
-
-            if (CompareMonth >= month && CompareMonth <= nMonth) {
-                if (DateDiff.inDays(d1, d2) > 0 && DateDiff.inDays(d1, d2) < 70) {
-                    symbolWrapper.className = "symbol";
-                    var symbol = document.createElement("span");
-                    symbol.className = "fa fa-calendar-o";
+           if (this.holiday.length > 0){
+             if (CompareMonth >= month && CompareMonth <= nMonth) {
+                if (DateDiff.inDays(d1, d2) > -1 && DateDiff.inDays(d1, d2) <= this.config.days) {
+                    if (allDate === today){
+                    symbolWrapper.classList.add("symbol","fa-blink");
+                    var symbol = document.createElement("span1");
+                    symbol.className = "fa fa-bell-o";
+						} else {
+					symbolWrapper.className = "symbol";	
+					var symbol = document.createElement("span");
+                    symbol.className = "fa fa-calendar-o";	
+						}
                     symbolWrapper.appendChild(symbol);
                     HolidayTable.appendChild(symbolWrapper);
 
@@ -148,10 +150,9 @@ Module.register("MMM-Holiday", {
 					holidayDate.classList.add("xsmall", "bright", "now");
                     holidayDate.innerHTML = allDate + " ~ " + holiday.localName + " In " + DateDiff.inDays(d1, d2) + " days";	
 					}
-                    
-
                     HolidayTable.appendChild(holidayDate);
                     wrapper.appendChild(HolidayTable);
+		           }
                 }
             }
         }
