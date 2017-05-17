@@ -15,13 +15,15 @@ Simple installation!
 
       {
             module: 'MMM-Holiday',
-            position: 'middle_center',
+            position: 'top_left',
             config: {
-                maxWidth: "40%",
+                maxWidth: "55%",
+                useHeader: true,
                 header: "Upcoming Holidays",
-                countryCode: "usa"
+                countryCode: "jpn",
+                days: "365"
             }
-         },
+        },
     Get your country code from the list below.     
     
 
