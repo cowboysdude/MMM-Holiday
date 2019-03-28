@@ -18,6 +18,7 @@ Module.register("MMM-Holiday", {
         MaxWidth: "40%",
         countryCode: "usa",
         days: "365",
+	mode: "imperial"
     },
 
     getStyles: function() {
@@ -109,7 +110,8 @@ Module.register("MMM-Holiday", {
 
 
             var allDate = holiday.date.month + "/" + holiday.date.day + "/" + holiday.date.year;
-
+            var rallDate = holiday.date.day + "/" + holiday.date.month + "/" + holiday.date.year;
+		
             var DateDiff = {
                 inDays: function(d1, d2) {
                     var t2 = d2.getTime();
@@ -145,10 +147,18 @@ Module.register("MMM-Holiday", {
                     var holidayDate = document.createElement("td");
                     if (allDate === today){
 					holidayDate.classList.add("xsmall", "bright", "today");
+			    if (this.config.mode != "metric") {
                     holidayDate.innerHTML = allDate + " ~ " + holiday.localName + " -> Today ";	
+			    } else {
+		      holidayDate.innerHTML = rallDate + " ~ " + holiday.localName + " -> Today ";  
+			    }
 					} else {
 					holidayDate.classList.add("xsmall", "bright", "now");
-                    holidayDate.innerHTML = allDate + " ~ " + holiday.localName + " In " + DateDiff.inDays(d1, d2) + " days";	
+				if (this.config.mode != "metric") {		
+                    holidayDate.innerHTML = allDate + " ~ " + holiday.localName + " In " + DateDiff.inDays(d1, d2) + " days";
+				} else {
+		    	holidayDate.innerHTML = rallDate + " ~ " + holiday.localName + " In " + DateDiff.inDays(d1, d2) + " days";
+				}
 					}
                     HolidayTable.appendChild(holidayDate);
                     wrapper.appendChild(HolidayTable);
