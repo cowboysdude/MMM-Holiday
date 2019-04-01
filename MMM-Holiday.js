@@ -18,7 +18,8 @@ Module.register("MMM-Holiday", {
         MaxWidth: "40%",
         countryCode: "usa",
         days: "365",
-	mode: "imperial"
+	mode: "imperial",
+	showToday: true
     },
 
     getStyles: function() {
@@ -132,7 +133,7 @@ Module.register("MMM-Holiday", {
            if (this.holiday.length > 0){
              if (CompareMonth >= month && CompareMonth <= nMonth) {
                 if (DateDiff.inDays(d1, d2) > -1 && DateDiff.inDays(d1, d2) <= this.config.days) {
-                    if (allDate === today){
+                    if (allDate === today && this.config.showToday == true){
                     symbolWrapper.classList.add("symbol","fa-blink");
                     var symbol = document.createElement("span1");
                     symbol.className = "fa fa-bell-o";
