@@ -34,7 +34,8 @@ A MagicMirror module that displays the holidays for your country.
             animationSpeed: 6000,
             countryCode: "jpn",
             days: "365",  // Days to look forward for holidays (1 to 365)
-            mode: "imperial" //imperial to show date mm/dd/yyyy or metric to show date dd/mm/yyyy
+            mode: "imperial" //imperial to show date mm/dd/yyyy or metric to show date dd/mm/yyyy,
+            showToday: true //by default.. to show a holiday on the day or not show it.
         }
     },
 
